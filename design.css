@@ -1,0 +1,28 @@
+h2{
+    color: rgb(56, 70, 70);
+    text-align: center;
+}
+.tried{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+}
+.second{
+    padding: 2%;
+}
+.jumbo{
+    background-color: rgb(218, 233, 228);
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    width: 100%;
+    height:150px;
+    margin: auto;
+    padding: 3.5%;
+    border:solid 10px;
+    border-color: rgb(161, 242, 187);
+}
+.stat{
+    padding: 1%;
+}
+body{
+    background-color: rgb(227, 193, 153);
+}
