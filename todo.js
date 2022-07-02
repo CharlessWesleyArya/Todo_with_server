@@ -17,6 +17,12 @@ var newTodos = []
 let isEdit = false;
 let editId = null;
 
+fetchTodos()
+    .then(data => {
+        todos = data;
+        iter(todos);
+    })
+
 const todo = document.getElementById('todoForm')
 
 const bn = document.querySelector('#btun')
@@ -72,7 +78,12 @@ function logic() {
 
        }  todos.push(todo);*/
 
-        todos = [...todos, todo]
+        createTodos(todo)
+            .then(data => {
+                todo={...todo,id:data.id}
+                todos = [...todos, todo];
+                iter(todos)
+            })
     }
     else {
         var newTodos = [...todos];
@@ -86,7 +97,7 @@ function logic() {
     }
     title.value = null;
     description.value = null;
-    iter(todos)
+
 }
 function editLock(id) {
     editId = id
@@ -100,14 +111,14 @@ function releaseLock() {
 }
 //to get new todo
 function getTodo(title, description) {
-    var id;
+    /* var id;
     if (todos.length == 0) id = 1;
     else {
         var last = todos[todos.length - 1]
         id = last.id + 1;
-    }
+    } */
     return {
-        id,
+        //id,
         title,
         description,
         createdAt: new Date().toString,
@@ -125,7 +136,7 @@ function iter(todos) {
         todo_list.appendChild(item)
     })
 }
-iter(todos);
+
 function iterATodo(todo) {
     const mainRow = document.createElement('div');
     mainRow.className = 'row jumbo';
@@ -153,9 +164,9 @@ function iterATodo(todo) {
          new_todo.status='Completed'; */
 
         //immutable way
-       statusChange()
+        statusChange()
     })
-    function statusChange(){
+    function statusChange() {
         newTodos = [...todos];
         var idx = newTodos.findIndex(t => t.id == todo.id)
         var t = { ...newTodos[idx] }
@@ -186,11 +197,21 @@ function iterATodo(todo) {
     del.className = 'col-md-2';
     let del_button = document.createElement('button')
     del_button.className = 'btn btn-danger';
-    del_button.textContent = 'DELETE';
+    del_button.textContent = 'Delete';
 
     del_button.addEventListener('click', function () {
-        var newTodos = todos.filter(t => t.id = !todo.id);
-        iter(newTodos);
+
+        /* var newTodos = todos.filter(t => t.id = !todo.id);
+         todos=newTodos;
+        iter(todos); */
+        //console.log(todo.id);
+        if (todo.id != undefined) {
+            deleteTodo(todo.id)
+                .then(data => {
+                    todos = [...todos, data]
+                    return todos
+                })
+        }
     })
 
     mark.appendChild(but)
@@ -208,8 +229,8 @@ function iterATodo(todo) {
     return mainRow;
 }
 active.addEventListener('click', function () {
-        newTodos=[...todos]
-        console.log(newTodos[0].status);
+    newTodos = [...todos]
+    console.log(newTodos[0].status);
 
 })
 
